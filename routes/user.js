@@ -18,6 +18,7 @@ const convertToBase64 = require("../utils/converToBase64");
 router.post("/user/signup", fileUpload(), async (req, res) => {
   try {
     console.log(req.body);
+    console.log(req.files.avatar);
     // const emailAlreadyExists = await User.findOne({ email: req.body.email });
     // console.log(emailAlreadyExists);
     if (!req.body.username) {
@@ -47,7 +48,6 @@ router.post("/user/signup", fileUpload(), async (req, res) => {
       hash: newHash,
       salt: newSalt,
     });
-    console.log(req.files.avatar);
 
     //Conversion de mon image en base64
     const convertedPicture = convertToBase64(req.files.avatar);

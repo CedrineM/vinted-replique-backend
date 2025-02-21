@@ -100,8 +100,11 @@ router.get("/offers", async (req, res) => {
       .skip((page - 1) * 5)
       .limit(5)
       .select("product_name product_price");
-    console.log(filter);
-    return res.status(200).json(offer);
+
+    const offersLength = await Offer.countDocuments(filters);
+    console.log(offersLength);
+
+    return res.status(200).json({ count: offersLength, offers: offer });
   } catch (error) {
     console.error;
     return res
