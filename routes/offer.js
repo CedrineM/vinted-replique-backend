@@ -75,22 +75,22 @@ router.post("/offer/publish", authenticated, fileUpload(), async (req, res) => {
 //Affichage des différentes annonce avec possibilité de trie
 router.get("/offers", async (req, res) => {
   try {
-    const { title, priceMine, priceMax, sort, page } = req.query;
+    const { title, priceMin, priceMax, sort, page } = req.query;
     console.log(req.query);
     console.log(title);
     const filter = { found: {} };
     if (title) {
       filter.found.product_name = new RegExp(title, "i");
     }
-    if (priceMine && priceMax) {
+    if (priceMin && priceMax) {
       filter.found.product_price = {
         $gte: Number(priceMine),
         $lte: Number(priceMax),
       };
-    } else if (!priceMine && priceMax) {
+    } else if (!priceMin && priceMax) {
       filter.found.product_price = { $lte: Number(priceMax) };
-    } else if (priceMine && !priceMax) {
-      filter.found.product_price = { $gte: Number(priceMine) };
+    } else if (priceMin && !priceMax) {
+      filter.found.product_price = { $gte: Number(priceMin) };
     }
     if (sort) {
       filter.sort = { product_price: sort.slice(6) };
